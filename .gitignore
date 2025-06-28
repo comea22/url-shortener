@@ -10,3 +10,6 @@ db.sqlite3
 /staticfiles/
 /media/
 .env
+
+# macOS
+.DS_Store
