@@ -38,6 +38,20 @@ def create_short_url(request):
 
 def redirect_short_url(request, short_code):
     short_url = get_object_or_404(ShortURL, short_code=short_code)
+    if short_url.password:
+        if request.method == 'POST':
+            entered_password = request.POST.get('password')
+            if entered_password == short_url.password:
+                return redirect(short_url.original_url)
+            else:
+                return render(request, 'shortener/password_prompt.html', {
+                    'short_code': short_code,
+                    'error': '密碼錯誤，請再試一次！'
+                })
+        else:
+            return render(request, 'shortener/password_prompt.html', {
+                'short_code': short_code
+            })
     return redirect(short_url.original_url)
 
 
