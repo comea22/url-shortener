@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>縮網址服務</title>
+</head>
+<body>
+    <h1>縮網址服務</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">產生短網址</button>
+    </form>
+
+    <hr>
+
+    <h2>縮短後的網址：</h2>
+    <input type="text" readonly value="{{ short_url|default:'' }}" style="width: 400px;">
+    <form method="get">
+        <button type="submit">清除</button>
+    </form>
+</body>
+</html>
