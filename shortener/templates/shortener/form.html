@@ -11,7 +11,6 @@
 
   <img src="{% static 'images/main.png' %}" alt="Brief Baby png" class="max-w-xs h-auto">
 
-  {% comment %} <h2 class="text-2xl text-[#3c2f80] mb-8">網址變北鼻，分享更 happy</h2> {% endcomment %}
 
   <p class="text-[#3c2f80] text-center mb-8">
     讓你的長網址變得簡潔可愛，<br>
@@ -23,7 +22,7 @@
       {% csrf_token %}
 
 
-      <div class="mb-6">
+      <div class="mb-4">
         <label for="id_original_url" class="block text-[#1d1d4a] font-semibold mb-2">
           {{ form.original_url.label }}
         </label>
@@ -38,7 +37,7 @@
       </div>
 
 
-      <div class="mb-6">
+      <div class="mb-4">
         <label for="id_password" class="block text-[#1d1d4a] font-semibold mb-2">
           {{ form.password.label }}
         </label>
@@ -68,7 +67,7 @@
 
 
     <h2 class="text-[#1d1d4a] text-lg font-semibold mb-2">短網址</h2>
-    <div class="relative inline-block mb-8">
+    <div class="relative inline-block mb-4">
       <input type="text" id="shortUrlInput" readonly
         value="{{ short_url|default:'' }}"
         class="w-96 py-3 px-4 pr-20 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c2f80] bg-white text-[#1d1d4a]">
@@ -82,7 +81,7 @@
     <form method="get">
       <div class="flex justify-end">
         <button type="submit"
-          class="bg-gray-300 text-gray-800 px-4 py-2 rounded-xl hover:bg-gray-400">
+          class="w-96 bg-gray-300 text-gray-800 px-4 py-2 rounded-xl hover:bg-gray-400">
           清除
         </button>
       </div>
