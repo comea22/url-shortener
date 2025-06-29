@@ -32,7 +32,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.railway.app'                     
+    '.railway.app',                    
     'url-shortener-production-dfb0.up.railway.app', 
     'healthcheck.railway.app',
     'brief.baby',
