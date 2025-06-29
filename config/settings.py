@@ -30,6 +30,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '*.railway.app',
+    '*.up.railway.app',                             
+    'url-shortener-production-dfb0.up.railway.app', 
     'healthcheck.railway.app',
     'brief.baby',
     'www.brief.baby',
