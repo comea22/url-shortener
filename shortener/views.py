@@ -1,34 +1,50 @@
-from django.shortcuts import render,  get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import ShortURL
 from .utils import generate_unique_short_code
 from .forms import ShortURLForm
 
 
-
 def create_short_url(request):
     if request.method == "POST":
-        original_url = request.POST.get("original_url")
-        password = request.POST.get("password")
+        form = ShortURLForm(request.POST)
+        if form.is_valid():
+            original_url = form.cleaned_data['original_url']
+            password = form.cleaned_data['password']
 
-        short_code = generate_unique_short_code(length=8)
+            short_code = generate_unique_short_code(length=8)
 
-        short_url_obj = ShortURL.objects.create(
-            original_url=original_url,
-            short_code=short_code,
-            password=password,
-        )
+            short_url_obj = ShortURL.objects.create(
+                original_url=original_url,
+                short_code=short_code,
+                password=password,
+            )
 
+            # 成功建立後，重新建立一個空的表單並傳回結果
+            form = ShortURLForm()  # 清空表單
+            return render(request, "shortener/form.html", {
+                "form": form,
+                "original_url": original_url,
+                "short_url": short_url_obj.get_short_url(),
+            })
+        else:
+            # 表單驗證失敗，返回帶有錯誤訊息的表單
+            return render(request, "shortener/form.html", {
+                "form": form,
+            })
+    else:
+        # GET 請求，顯示空白表單
+        form = ShortURLForm()
         return render(request, "shortener/form.html", {
-            "original_url": original_url,
-            "short_url": short_url_obj.get_short_url(),
+            "form": form,
+            "short_url": "",  
+            "original_url": "",  
         })
-
-    return render(request, "shortener/form.html")
 
 
 def redirect_short_url(request, short_code):
     short_url = get_object_or_404(ShortURL, short_code=short_code)
+    
     if short_url.password:
         if request.method == 'POST':
             entered_password = request.POST.get('password')
@@ -37,13 +53,11 @@ def redirect_short_url(request, short_code):
             else:
                 return render(request, 'shortener/password_prompt.html', {
                     'short_code': short_code,
-                    'error': '密碼錯誤，請再試一次！'
+                    'error': '密碼錯誤,請再試一次!'
                 })
         else:
             return render(request, 'shortener/password_prompt.html', {
                 'short_code': short_code
             })
+    
     return redirect(short_url.original_url)
-
-
-# Create your views here.

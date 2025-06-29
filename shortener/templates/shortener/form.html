@@ -6,10 +6,8 @@
   <title>Brief Baby - 縮網址</title>
   <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
   <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
-
 </head>
 <body class="bg-[#f7ede3] min-h-screen flex flex-col items-center justify-center p-8">
-
 
   <img src="{% static 'images/main.png' %}" alt="Brief Baby png" class="max-w-xs h-auto">
 
@@ -20,84 +18,131 @@
     縮短的不只是字數，更是分享的距離！
   </p>
 
-<div  class="bg-white bg-opacity-0 p-8 rounded-lg">
-  <form method="post">
-    {% csrf_token %}
+  <div class="bg-white bg-opacity-0 p-8 rounded-lg">
+    <form method="post">
+      {% csrf_token %}
 
-    <div class="mb-6">
-      <label for="id_original_url" class="block text-[#1d1d4a] font-semibold mb-2">
-        原網址
-      </label>
-      <input type="url" id="id_original_url" name="original_url" required
-        class="w-96 py-3 px-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c2f80] bg-white text-[#1d1d4a]"
-        value="{{ original_url|default:'' }}">
-    </div>
 
-    <div class="mb-6">
-    <label for="id_password" class="block text-[#1d1d4a] font-semibold mb-2">
-        密碼（非必填）
-    </label>
-    <div class="flex gap-4 items-center">
-        <div class="relative">
-        <input type="password" id="id_password" name="password"
-            class="w-60 py-3 px-4 pr-10 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c2f80] bg-white text-[#1d1d4a]"
-            pattern="\d{8}"  inputmode="numeric" maxlength="8"
-            placeholder="密碼需為 8 位數字">
-        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" onclick="togglePassword()">
-            👀
-        </span>
+      <div class="mb-6">
+        <label for="id_original_url" class="block text-[#1d1d4a] font-semibold mb-2">
+          {{ form.original_url.label }}
+        </label>
+        {{ form.original_url }}
+        {% if form.original_url.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in form.original_url.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+
+      <div class="mb-6">
+        <label for="id_password" class="block text-[#1d1d4a] font-semibold mb-2">
+          {{ form.password.label }}
+        </label>
+        <div class="flex gap-4 items-center">
+          <div class="relative">
+            {{ form.password }}
+            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" onclick="togglePassword()">
+              👀
+            </span>
+          </div>
+
+          <button type="submit"
+            class="bg-[#e49294] text-white font-bold px-6 py-3 rounded-xl hover:bg-[#d67173] focus:outline-none focus:ring-2 focus:ring-[#3c2f80]">
+            產生短網址
+          </button>
         </div>
+        {% if form.password.errors %}
+          <div class="text-red-500 text-sm mt-1">
+            {% for error in form.password.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-        <button type="submit"
-        class="bg-[#e49294] text-white font-bold px-6 py-3 rounded-xl hover:bg-[#d67173] focus:outline-none focus:ring-2 focus:ring-[#3c2f80]">
-        產生短網址
-        </button>
+    </form>
+
+
+    <h2 class="text-[#1d1d4a] text-lg font-semibold mb-2">短網址</h2>
+    <div class="relative inline-block mb-8">
+      <input type="text" id="shortUrlInput" readonly
+        value="{{ short_url|default:'' }}"
+        class="w-96 py-3 px-4 pr-20 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c2f80] bg-white text-[#1d1d4a]">
+      <button type="button" onclick="copyShortUrl(this)"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-400 text-white text-sm px-4 py-2 rounded-xl hover:bg-gray-600 focus:outline-none">
+        複製
+      </button>
     </div>
-</div>
 
-  </form>
-   <h2 class="text-[#1d1d4a] text-lg font-semibold mb-2">短網址</h2>
-  <div class="relative inline-block mb-8">
-    <input type="text" id="shortUrlInput" readonly
-      value="{{ short_url|default:'' }}"
-      class="w-96 py-3 px-4 pr-20 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3c2f80] bg-white text-[#1d1d4a]">
-    <button type="button" onclick="copyShortUrl()"
-      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-400 text-white text-sm px-4 py-2 rounded-xl hover:bg-gray-600 focus:outline-none">
-      複製
-    </button>
+
+    <form method="get">
+      <div class="flex justify-end">
+        <button type="submit"
+          class="bg-gray-300 text-gray-800 px-4 py-2 rounded-xl hover:bg-gray-400">
+          清除
+        </button>
+      </div>
+    </form>
+
   </div>
-
-  <form method="get">
-    <div class ="flex justify-end">
-        <button type="submit"
-        class="bg-gray-300 text-gray-800 px-4 py-2 rounded-xl hover:bg-gray-400">
-        清除
-        </button>
-        </div>
-  </form>
-
-</div>
-
- 
-</div>
 
   <script>
     function togglePassword() {
       var input = document.getElementById("id_password");
-      if (input.type === "password") {
-        input.type = "text";
-      } else {
-        input.type = "password";
-      }
+      var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+      input.setAttribute('type', type);
     }
 
-    function copyShortUrl() {
+    // 強化數字輸入限制
+    document.addEventListener('DOMContentLoaded', function() {
+      var passwordInput = document.getElementById('id_password');
+      
+      if (passwordInput) {
+        // 限制密碼欄位只能輸入數字
+        passwordInput.addEventListener('input', function(e) {
+          // 移除所有非數字字符
+          this.value = this.value.replace(/[^0-9]/g, '');
+          
+          if (this.value.length > 8) {
+            this.value = this.value.slice(0, 8);
+          }
+        });
+
+        // 阻止非數字按鍵
+        passwordInput.addEventListener('keydown', function(e) {
+          // 允許的按鍵：數字鍵、退格鍵、刪除鍵、方向鍵、Tab等
+          var allowedKeys = [8, 9, 27, 46, 37, 38, 39, 40];
+          var isNumber = (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105);
+          
+          if (!isNumber && allowedKeys.indexOf(e.keyCode) === -1) {
+            e.preventDefault();
+          }
+        });
+      }
+    });
+
+    function copyShortUrl(buttonElement) {
       var copyText = document.getElementById("shortUrlInput");
       var url = copyText.value;
       if (url) {
         navigator.clipboard.writeText(url)
           .then(function () {
-            alert("已複製短網址！");
+            // 更優雅的提示方式
+            var button = buttonElement || document.querySelector('[onclick="copyShortUrl()"]');
+            var originalText = button.textContent;
+            button.textContent = '已複製！';
+            button.classList.add('bg-gray-600');
+            button.classList.remove('bg-gray-400');
+            
+            setTimeout(function() {
+              button.textContent = originalText;
+              button.classList.remove('bg-gray-600');
+              button.classList.add('bg-gray-400');
+            }, 2000);
           })
           .catch(function (err) {
             alert("複製失敗：" + err);
