@@ -138,3 +138,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHORTENER_BASE_URL = 'https://www.brief.baby/'
 TAILWIND_APP_NAME = 'theme'
+
+# CSRF 設定
+CSRF_TRUSTED_ORIGINS = [
+    'https://brief.baby',
+    'https://www.brief.baby',
+]
