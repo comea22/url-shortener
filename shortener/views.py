@@ -20,11 +20,9 @@ def create_short_url(request):
                 password=password,
             )
 
-            # 成功建立後，重新建立一個空的表單並傳回結果
-            form = ShortURLForm()  # 清空表單
+            form = ShortURLForm(initial={'original_url': original_url})
             return render(request, "shortener/form.html", {
                 "form": form,
-                "original_url": original_url,
                 "short_url": short_url_obj.get_short_url(),
             })
         else:
@@ -33,12 +31,10 @@ def create_short_url(request):
                 "form": form,
             })
     else:
-        # GET 請求，顯示空白表單
+        # GET 請求（重新整理），顯示完全空白的表單
         form = ShortURLForm()
         return render(request, "shortener/form.html", {
             "form": form,
-            "short_url": "",  
-            "original_url": "",  
         })
 
 
