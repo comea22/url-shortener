@@ -7,33 +7,24 @@ from .forms import ShortURLForm
 
 
 def create_short_url(request):
-    if request.method == 'POST':
-        form = ShortURLForm(request.POST)
-        if form.is_valid():
-            original_url = form.cleaned_data['original_url']
-            password = form.cleaned_data['password']
-            note = form.cleaned_data['note']
+    if request.method == "POST":
+        original_url = request.POST.get("original_url")
+        password = request.POST.get("password")
 
-            short_code = generate_unique_short_code(length=8)
+        short_code = generate_unique_short_code(length=8)
 
-            short_url = ShortURL.objects.create(
-                original_url=original_url,
-                short_code=short_code,
-                password=password,
-                note=note
-            )
+        short_url_obj = ShortURL.objects.create(
+            original_url=original_url,
+            short_code=short_code,
+            password=password,
+        )
 
-            context = {
-                'short_url': short_url.get_short_url(),
-                'form': ShortURLForm()
-            }
-            return render(request, 'shortener/form.html', context)
-        else:
-            return render(request, 'shortener/form.html', {'form': form})
-    else:
-        form = ShortURLForm()
+        return render(request, "shortener/form.html", {
+            "original_url": original_url,
+            "short_url": short_url_obj.get_short_url(),
+        })
 
-    return render(request, 'shortener/form.html', {'form': form})
+    return render(request, "shortener/form.html")
 
 
 def redirect_short_url(request, short_code):

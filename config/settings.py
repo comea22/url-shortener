@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shortener'
+    'shortener',
+    'tailwind',
+    'theme'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHORTENER_BASE_URL = 'http://localhost:8000/'
+TAILWIND_APP_NAME = 'theme'
