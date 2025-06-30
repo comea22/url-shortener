@@ -149,6 +149,8 @@ TAILWIND_APP_NAME = 'theme'
 CSRF_TRUSTED_ORIGINS = [
     'https://brief.baby',
     'https://www.brief.baby',
+    'https://*.railway.app',  
+    'https://url-shortener-production-dfb0.up.railway.app', 
 ]
 
 
