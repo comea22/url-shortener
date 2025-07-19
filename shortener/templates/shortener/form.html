@@ -91,14 +91,14 @@
 
   <script>
     function togglePassword() {
-      var input = document.getElementById("id_password");
-      var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+      const input = document.getElementById("id_password");
+      const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
       input.setAttribute('type', type);
     }
 
     // 強化數字輸入限制
     document.addEventListener('DOMContentLoaded', function() {
-      var passwordInput = document.getElementById('id_password');
+      const passwordInput = document.getElementById('id_password');
       
       if (passwordInput) {
         // 限制密碼欄位只能輸入數字
@@ -114,8 +114,8 @@
         // 阻止非數字按鍵
         passwordInput.addEventListener('keydown', function(e) {
           // 允許的按鍵：數字鍵、退格鍵、刪除鍵、方向鍵、Tab等
-          var allowedKeys = [8, 9, 27, 46, 37, 38, 39, 40];
-          var isNumber = (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105);
+          const allowedKeys = [8, 9, 27, 46, 37, 38, 39, 40];
+          const isNumber = (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105);
           
           if (!isNumber && allowedKeys.indexOf(e.keyCode) === -1) {
             e.preventDefault();
@@ -125,14 +125,14 @@
     });
 
     function copyShortUrl(buttonElement) {
-      var copyText = document.getElementById("shortUrlInput");
-      var url = copyText.value;
+      const copyText = document.getElementById("shortUrlInput");
+      const url = copyText.value;
       if (url) {
         navigator.clipboard.writeText(url)
           .then(function () {
             // 更優雅的提示方式
-            var button = buttonElement || document.querySelector('[onclick="copyShortUrl()"]');
-            var originalText = button.textContent;
+            const button = buttonElement || document.querySelector('[onclick="copyShortUrl()"]');
+            const originalText = button.textContent;
             button.textContent = '已複製！';
             button.classList.add('bg-gray-600');
             button.classList.remove('bg-gray-400');
