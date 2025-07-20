@@ -78,14 +78,17 @@
     </div>
 
 
-    <form method="get">
+
       <div class="flex justify-end">
-        <button type="submit"
+        <button type="button" onclick="clearForm()"
           class="w-96 bg-gray-300 text-gray-800 px-4 py-2 rounded-xl hover:bg-gray-400">
           清除
         </button>
       </div>
-    </form>
+
+      
+</div>
+
 
   </div>
 
@@ -150,6 +153,15 @@
         alert("目前沒有短網址可以複製！");
       }
     }
+
+  function clearForm() {
+  // 清空表單
+  document.querySelector('form').reset();
+  // 清空結果欄位
+  document.getElementById('shortUrlInput').value = '';
+  // 重新載入頁面（移除 URL 中的任何參數，回到乾淨狀態）
+  window.location.href = window.location.pathname;
+}
   </script>
 </body>
 </html>

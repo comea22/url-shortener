@@ -31,7 +31,6 @@ def create_short_url(request):
                 "form": form,
             })
     else:
-        # GET 請求（重新整理），顯示完全空白的表單
         form = ShortURLForm()
         return render(request, "shortener/form.html", {
             "form": form,
@@ -49,7 +48,7 @@ def redirect_short_url(request, short_code):
             else:
                 return render(request, 'shortener/password_prompt.html', {
                     'short_code': short_code,
-                    'error': '密碼錯誤,請再試一次!'
+                    'error': '密碼錯誤，請再試一次！'
                 })
         else:
             return render(request, 'shortener/password_prompt.html', {
